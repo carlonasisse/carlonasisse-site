@@ -123,6 +123,14 @@
     .film-card:nth-child(13) { animation-delay: 0.47s; }
     .film-card:nth-child(14) { animation-delay: 0.50s; }
     .film-card:nth-child(15) { animation-delay: 0.54s; }
+    .film-card:nth-child(16) { animation-delay: 0.57s; }
+    .film-card:nth-child(17) { animation-delay: 0.60s; }
+    .film-card:nth-child(18) { animation-delay: 0.63s; }
+    .film-card:nth-child(19) { animation-delay: 0.66s; }
+    .film-card:nth-child(20) { animation-delay: 0.69s; }
+    .film-card:nth-child(21) { animation-delay: 0.72s; }
+    .film-card:nth-child(22) { animation-delay: 0.75s; }
+    .film-card:nth-child(23) { animation-delay: 0.78s; }
 
     .film-card img {
       width: 100%; height: 100%; object-fit: cover; display: block;
@@ -194,20 +202,28 @@
 
   <main class="grid" id="grid">
     <a href="#" class="film-card"><img src="images/animaleye2.jpg" alt="Animal Eye"></a>
-    <a href="#" class="film-card"><img src="images/lacuna1.jpg" alt="Lacuna"></a>
-    <a href="#" class="film-card"><img src="images/captions1.jpg" alt="Captions Will Be Needed"></a>
-    <a href="#" class="film-card"><img src="images/bark1.jpg" alt="Bark"></a>
-    <a href="#" class="film-card"><img src="images/direcciones.jpg" alt="Direcciones"></a>
-    <a href="#" class="film-card"><img src="images/cobyandstephenareinlove.jpg" alt="Coby and Stephen Are In Love"></a>
-    <a href="#" class="film-card"><img src="images/entrelefeu2.jpg" alt="Entrelefeu"></a>
-    <a href="#" class="film-card"><img src="images/arcteryx.jpg" alt="Arcteryx"></a>
-    <a href="#" class="film-card"><img src="images/bark2.jpg" alt="Bark"></a>
-    <a href="#" class="film-card"><img src="images/captions2.jpg" alt="Captions Will Be Needed"></a>
+    <a href="#" class="film-card"><img src="images/animaleye6.jpg" alt="Animal Eye"></a>
     <a href="#" class="film-card"><img src="images/animaleye7.jpg" alt="Animal Eye"></a>
-    <a href="#" class="film-card"><img src="images/entrelefeu4.jpg" alt="Entrelefeu"></a>
+    <a href="#" class="film-card"><img src="images/animaleye8.jpg" alt="Animal Eye"></a>
+    <a href="#" class="film-card"><img src="images/animaleye9.jpg" alt="Animal Eye"></a>
+    <a href="#" class="film-card"><img src="images/arcteryx.jpg" alt="Arcteryx"></a>
     <a href="#" class="film-card"><img src="images/arcteryx2.jpg" alt="Arcteryx"></a>
-    <a href="#" class="film-card"><img src="images/captions3.jpg" alt="Captions Will Be Needed"></a>
+    <a href="#" class="film-card"><img src="images/arcteryx3.jpg" alt="Arcteryx"></a>
+    <a href="#" class="film-card"><img src="images/bark1.jpg" alt="Bark"></a>
+    <a href="#" class="film-card"><img src="images/bark2.jpg" alt="Bark"></a>
     <a href="#" class="film-card"><img src="images/bark3.jpg" alt="Bark"></a>
+    <a href="#" class="film-card"><img src="images/captions1.jpg" alt="Captions Will Be Needed"></a>
+    <a href="#" class="film-card"><img src="images/captions2.jpg" alt="Captions Will Be Needed"></a>
+    <a href="#" class="film-card"><img src="images/captions3.jpg" alt="Captions Will Be Needed"></a>
+    <a href="#" class="film-card"><img src="images/captions4.jpg" alt="Captions Will Be Needed"></a>
+    <a href="#" class="film-card"><img src="images/captions5.jpg" alt="Captions Will Be Needed"></a>
+    <a href="#" class="film-card"><img src="images/cobyandstephenareinlove.jpg" alt="Coby and Stephen Are In Love"></a>
+    <a href="#" class="film-card"><img src="images/direcciones.jpg" alt="Direcciones"></a>
+    <a href="#" class="film-card"><img src="images/entrelefeu1.jpg" alt="Entrelefeu"></a>
+    <a href="#" class="film-card"><img src="images/entrelefeu2.jpg" alt="Entrelefeu"></a>
+    <a href="#" class="film-card"><img src="images/entrelefeu3.jpg" alt="Entrelefeu"></a>
+    <a href="#" class="film-card"><img src="images/entrelefeu4.jpg" alt="Entrelefeu"></a>
+    <a href="#" class="film-card"><img src="images/lacuna1.jpg" alt="Lacuna"></a>
   </main>
 
   <script>
@@ -216,8 +232,6 @@
     const peekEl  = document.getElementById('peek-indicator');
     const grid    = document.getElementById('grid');
     const cards   = [...document.querySelectorAll('.film-card')];
-    cards.sort(() => Math.random() - 0.5);
-cards.forEach(card => grid.appendChild(card));
 
     /* CURSOR */
     document.addEventListener('mousemove', e => {
