@@ -233,6 +233,10 @@
     const grid    = document.getElementById('grid');
     const cards   = [...document.querySelectorAll('.film-card')];
 
+    // Shuffle cards randomly on every page load
+    cards.sort(() => Math.random() - 0.5);
+    cards.forEach(card => grid.appendChild(card));
+
     /* CURSOR */
     document.addEventListener('mousemove', e => {
       cursor.style.left = e.clientX + 'px';
