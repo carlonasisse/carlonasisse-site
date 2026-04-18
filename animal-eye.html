@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Animal Eye — Carlo Nasisse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --orange: #e6510a;
       --bg: #f8f7f4;
-      --text: #2a2826;
+      --text: #252220;
       --muted: #a09c97;
-      --light: #c8c4be;
-      --divider: #e8e5e0;
+      --faint: #c8c4be;
+      --divider: #e8e5df;
       --ease: cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -24,114 +24,133 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Jost', sans-serif;
       font-weight: 300;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── BACK ── */
-    .back {
-      position: fixed; top: 24px; left: 28px; z-index: 50;
-      font-size: 11px; font-weight: 400; letter-spacing: 0.06em;
-      color: rgba(255,255,255,0.6); text-decoration: none;
-      display: flex; align-items: center; gap: 9px;
+    /* ── NAV BAR ── */
+    .nav {
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--divider);
+      opacity: 0;
+      animation: fadeIn 0.5s ease 0s both;
+    }
+
+    .nav-name {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--orange);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-back {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       transition: color 0.2s;
     }
-    .back-line {
-      display: block; width: 20px; height: 1px;
+    .nav-back:hover { color: var(--text); }
+    .nav-back::before {
+      content: '';
+      display: block;
+      width: 16px; height: 1px;
       background: currentColor;
-      transition: width 0.3s var(--ease);
     }
-    .back:hover { color: white; }
-    .back:hover .back-line { width: 28px; }
 
-    /* ── HERO ── */
-    .hero {
-      width: 100%; height: 75vh;
-      position: relative; overflow: hidden;
-      opacity: 0; animation: fadeIn 0.9s ease 0.05s both;
+    /* ── MAIN SPREAD ── */
+    .spread {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 62px);
+      opacity: 0;
+      animation: fadeIn 0.7s ease 0.15s both;
     }
-    .hero img {
+
+    /* LEFT — image */
+    .spread-image {
+      position: sticky;
+      top: 0;
+      height: calc(100vh - 62px);
+      overflow: hidden;
+    }
+
+    .spread-image img {
       width: 100%; height: 100%;
       object-fit: cover; display: block;
-      filter: brightness(0.65);
     }
 
-    /* ── TITLE BLOCK — sits just below hero, not over it ── */
-    .title-block {
-      padding: 44px 60px 0;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 24px;
-      opacity: 0; animation: fadeUp 0.7s ease 0.2s both;
+    /* RIGHT — all text, scrolls */
+    .spread-text {
+      padding: 52px 52px 80px 52px;
+      border-left: 1px solid var(--divider);
+      overflow-y: auto;
     }
 
+    /* Title */
     .film-title {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 400;
       letter-spacing: -0.01em;
       color: var(--text);
+      margin-bottom: 6px;
+      line-height: 1.2;
     }
 
-    .film-meta-inline {
-      font-size: 12px;
+    .film-specs {
+      font-size: 11px;
       font-weight: 300;
       color: var(--muted);
-      letter-spacing: 0.02em;
-      white-space: nowrap;
+      letter-spacing: 0.04em;
+      margin-bottom: 40px;
     }
 
-    /* ── MAIN CONTENT ── */
-    .content {
-      padding: 0 60px;
-      max-width: 1200px;
-    }
-
-    /* Divider */
-    .rule {
-      height: 1px; background: var(--divider);
-      margin: 28px 0;
-      opacity: 0; animation: fadeIn 0.6s ease 0.3s both;
-    }
-
-    /* ── TWO-COL BODY ── */
-    .body-grid {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 60px;
-      align-items: start;
-      opacity: 0; animation: fadeUp 0.7s ease 0.3s both;
-    }
-
-    /* LEFT */
-    .left {}
-
+    /* Description */
     .description {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 300;
-      line-height: 1.75;
+      line-height: 1.8;
       color: var(--text);
-      margin-bottom: 36px;
-      max-width: 560px;
+      margin-bottom: 40px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--divider);
     }
 
+    /* Crew */
     .crew-block {
-      margin-bottom: 44px;
+      margin-bottom: 40px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .block-label {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--faint);
+      display: block;
+      margin-bottom: 16px;
     }
 
     .crew-row {
       display: flex;
       gap: 0;
-      padding: 8px 0;
-      border-top: 1px solid var(--divider);
       font-size: 12px;
+      line-height: 2.0;
     }
-    .crew-row:last-child { border-bottom: 1px solid var(--divider); }
 
     .crew-role {
-      width: 180px;
-      min-width: 180px;
+      min-width: 160px;
       color: var(--muted);
       font-weight: 300;
     }
@@ -142,90 +161,75 @@
     }
 
     /* Awards */
-    .sub-label {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--light);
-      display: block;
-      margin-bottom: 12px;
+    .awards-block {
+      margin-bottom: 40px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--divider);
     }
 
-    .awards-block { margin-bottom: 44px; }
-
-    .award-row {
-      padding: 9px 0;
-      border-top: 1px solid var(--divider);
-      font-size: 12.5px;
+    .award-item {
+      font-size: 12px;
+      line-height: 1.6;
+      margin-bottom: 10px;
     }
-    .award-row:last-child { border-bottom: 1px solid var(--divider); }
+    .award-item:last-child { margin-bottom: 0; }
 
-    .award-title { font-weight: 400; color: var(--text); }
-    .award-sub   { font-weight: 300; color: var(--muted); font-size: 11.5px; margin-top: 1px; }
+    .award-name { font-weight: 400; color: var(--text); }
+    .award-sub  { font-weight: 300; color: var(--muted); font-size: 11px; }
 
     /* Screenings */
-    .screenings-block {}
+    .screenings-block { margin-bottom: 40px; }
 
     .sc-row {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      gap: 16px;
-      padding: 9px 0;
+      gap: 12px;
+      padding: 7px 0;
       border-top: 1px solid var(--divider);
-      font-size: 12.5px;
+      font-size: 12px;
     }
     .sc-row:last-child { border-bottom: 1px solid var(--divider); }
 
     .sc-festival { font-weight: 400; color: var(--text); }
-    .sc-place    { font-weight: 300; color: var(--muted); font-size: 11.5px; white-space: nowrap; flex-shrink: 0; }
+    .sc-place    { font-weight: 300; color: var(--muted); font-size: 11px; white-space: nowrap; flex-shrink: 0; }
 
-    /* RIGHT col — poster + 2 stills */
-    .right {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+    /* Poster — at bottom of text col */
+    .poster-block {
+      margin-top: 48px;
+      padding-top: 36px;
+      border-top: 1px solid var(--divider);
     }
 
-    .poster-wrap img {
-      width: 100%; display: block;
+    .poster-block img {
+      width: 55%;
+      display: block;
       cursor: zoom-in;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.3s;
     }
-    .poster-wrap img:hover { opacity: 0.9; }
+    .poster-block img:hover { opacity: 0.85; }
 
-    .side-still {
-      position: relative; overflow: hidden;
-      width: 100%; aspect-ratio: 3/2;
-      background: #ccc9c3; display: block; cursor: zoom-in;
-    }
-    .side-still img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      filter: brightness(0.82) saturate(0.88); transform: scale(1.04);
-      transition: filter 0.7s var(--ease), transform 0.9s var(--ease);
-    }
-    .side-still:hover img { filter: brightness(1.0) saturate(1.0); transform: scale(1.0); }
-    .side-still::after {
-      content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      background-size: 260px 260px; mix-blend-mode: soft-light;
-      opacity: 0.38; transition: opacity 0.7s var(--ease);
-    }
-    .side-still:hover::after { opacity: 0; }
-
-    /* ── STILLS GRID ── */
+    /* ── STILLS ── */
     .stills-section {
-      padding: 60px 60px 100px;
-      max-width: 1200px;
-      opacity: 0; animation: fadeUp 0.7s ease 0.4s both;
+      padding: 0 40px 80px;
+      opacity: 0;
+      animation: fadeIn 0.6s ease 0.3s both;
     }
+
+    .stills-header {
+      padding: 32px 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-top: 1px solid var(--divider);
+    }
+
+    .stills-header .block-label { margin: 0; }
 
     .stills-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      margin-top: 16px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
     }
 
     .still-card {
@@ -233,41 +237,43 @@
       aspect-ratio: 3/2; background: #ccc9c3;
       display: block; cursor: zoom-in;
     }
+
     .still-card img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      filter: brightness(0.82) saturate(0.88); transform: scale(1.04);
-      transition: filter 0.7s var(--ease), transform 0.9s var(--ease);
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      filter: brightness(0.82) saturate(0.88);
+      transform: scale(1.04);
+      transition: filter 0.65s var(--ease), transform 0.85s var(--ease);
     }
     .still-card:hover img { filter: brightness(1.0) saturate(1.0); transform: scale(1.0); }
+
     .still-card::after {
       content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
       background-size: 260px 260px; mix-blend-mode: soft-light;
-      opacity: 0.38; transition: opacity 0.7s var(--ease);
+      opacity: 0.38; transition: opacity 0.65s var(--ease);
     }
     .still-card:hover::after { opacity: 0; }
 
     /* ── FOOTER ── */
     .page-footer {
+      padding: 20px 40px;
       border-top: 1px solid var(--divider);
-      padding: 22px 60px;
-      display: flex; justify-content: space-between; align-items: center;
-      opacity: 0; animation: fadeUp 0.7s ease 0.45s both;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      opacity: 0;
+      animation: fadeIn 0.5s ease 0.4s both;
     }
-    .footer-name {
-      font-size: 13px; font-weight: 400;
-      color: var(--orange); text-decoration: none; letter-spacing: -0.01em;
-    }
-    .footer-back {
-      font-size: 11px; font-weight: 300; letter-spacing: 0.06em;
-      color: var(--muted); text-decoration: none; transition: color 0.2s;
-    }
-    .footer-back:hover { color: var(--text); }
+
+    .footer-name { font-size: 12px; font-weight: 400; color: var(--orange); text-decoration: none; }
+    .footer-link { font-size: 11px; font-weight: 300; color: var(--muted); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+    .footer-link:hover { color: var(--text); }
 
     /* ── LIGHTBOX ── */
     .lightbox {
       position: fixed; inset: 0; z-index: 200;
-      background: rgba(10,8,6,0.97);
+      background: rgba(8,6,5,0.97);
       display: flex; align-items: center; justify-content: center;
       opacity: 0; pointer-events: none;
       transition: opacity 0.3s var(--ease);
@@ -275,8 +281,9 @@
     .lightbox.active { opacity: 1; pointer-events: all; }
     .lb-img { max-width: 90vw; max-height: 90vh; object-fit: contain; display: block; }
     .lb-close {
-      position: absolute; top: 22px; right: 26px;
-      width: 36px; height: 36px; cursor: pointer; opacity: 0.5; transition: opacity 0.2s;
+      position: absolute; top: 20px; right: 24px;
+      width: 36px; height: 36px; cursor: pointer; opacity: 0.45;
+      transition: opacity 0.2s;
     }
     .lb-close:hover { opacity: 1; }
     .lb-close::before, .lb-close::after {
@@ -285,122 +292,103 @@
     }
     .lb-close::before { transform: translate(-50%,-50%) rotate(45deg); }
     .lb-close::after  { transform: translate(-50%,-50%) rotate(-45deg); }
-
     .lb-prev, .lb-next {
       position: absolute; top: 50%; transform: translateY(-50%);
-      width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; opacity: 0.4; transition: opacity 0.2s;
+      padding: 20px; cursor: pointer; opacity: 0.35; transition: opacity 0.2s;
     }
     .lb-prev:hover, .lb-next:hover { opacity: 0.9; }
-    .lb-prev { left: 20px; }
-    .lb-next { right: 20px; }
+    .lb-prev { left: 12px; }
+    .lb-next { right: 12px; }
     .lb-prev::before, .lb-next::before {
       content: ''; display: block;
-      width: 10px; height: 10px;
-      border-top: 1.5px solid white; border-left: 1.5px solid white;
+      width: 9px; height: 9px;
+      border-top: 1px solid white; border-left: 1px solid white;
     }
     .lb-prev::before { transform: rotate(-45deg); }
     .lb-next::before { transform: rotate(135deg); }
     .lb-counter {
-      position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
-      font-size: 10px; font-weight: 300; letter-spacing: 0.14em;
-      color: rgba(255,255,255,0.3);
+      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 300;
+      letter-spacing: 0.12em; color: rgba(255,255,255,0.25);
     }
 
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
-  <a href="index.html" class="back">
-    <span class="back-line"></span>
-    All work
-  </a>
+  <!-- Nav -->
+  <nav class="nav">
+    <a href="index.html" class="nav-name">carlo nasisse</a>
+    <a href="index.html" class="nav-back">all work</a>
+  </nav>
 
-  <!-- Hero -->
-  <div class="hero">
-    <img src="images/animal-eye/animaleye1.jpg" alt="Animal Eye">
-  </div>
+  <!-- Main spread: sticky image left, scrolling text right -->
+  <div class="spread">
 
-  <!-- Title -->
-  <div class="title-block">
-    <h1 class="film-title">Animal Eye</h1>
-    <span class="film-meta-inline">2024 &nbsp;·&nbsp; 13:48 &nbsp;·&nbsp; 16mm &nbsp;·&nbsp; Direction &amp; Cinematography: Carlo Nasisse</span>
-  </div>
+    <div class="spread-image">
+      <img src="images/animal-eye/animaleye1.jpg" alt="Animal Eye">
+    </div>
 
-  <div class="rule" style="margin: 28px 60px;"></div>
+    <div class="spread-text">
 
-  <!-- Main body -->
-  <div class="content">
-    <div class="body-grid">
+      <h1 class="film-title">Animal Eye</h1>
+      <p class="film-specs">2024 &nbsp;·&nbsp; 13:48 &nbsp;·&nbsp; 16mm &nbsp;·&nbsp; Direction &amp; Cinematography: Carlo Nasisse</p>
 
-      <!-- LEFT -->
-      <div class="left">
+      <p class="description">
+        Scientists and philosophers encounter the limits of their own vision through the eyes of animals.
+      </p>
 
-        <p class="description">
-          Scientists and philosophers encounter the limits of their own vision through the eyes of animals.
-        </p>
-
-        <div class="crew-block">
-          <div class="crew-row"><span class="crew-role">Produced by</span><span class="crew-name">Maria Luisa Santos, Dominic Yarabe</span></div>
-          <div class="crew-row"><span class="crew-role">Music</span><span class="crew-name">Tarin Clott</span></div>
-          <div class="crew-row"><span class="crew-role">Sound Design &amp; Mix</span><span class="crew-name">Carlos Aguilar / A Tropics Company</span></div>
-          <div class="crew-row"><span class="crew-role">Additional Cinematography</span><span class="crew-name">Pietro Bulgarelli</span></div>
-          <div class="crew-row"><span class="crew-role">Featuring</span><span class="crew-name">Brian Gleeney, Rebecca Mora, Angelique Allen</span></div>
-        </div>
-
-        <div class="awards-block">
-          <span class="sub-label">Awards</span>
-          <div class="award-row">
-            <div class="award-title">Student Academy Awards — Semi-Finalist</div>
-          </div>
-          <div class="award-row">
-            <div class="award-title">Jury Award</div>
-            <div class="award-sub">Tirana International Film Festival · Tirana, Albania</div>
-          </div>
-          <div class="award-row">
-            <div class="award-title">Made In Costa Rica — Winner</div>
-            <div class="award-sub">SHNIT · San José, Costa Rica</div>
-          </div>
-        </div>
-
-        <div class="screenings-block">
-          <span class="sub-label">Screenings</span>
-          <div class="sc-row"><span class="sc-festival">True/False Film Festival</span><span class="sc-place">Columbia, USA · Feb 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">Sheffield Doc Fest</span><span class="sc-place">Sheffield, UK · Jun 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">Guanajuato International Film Festival</span><span class="sc-place">Guanajuato, México · Jul 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">Mimesis Documentary Festival</span><span class="sc-place">Boulder, USA · Aug 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">SHNIT</span><span class="sc-place">San José, Costa Rica · Aug 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">Drama International Short Film Festival</span><span class="sc-place">Drama, Greece · Sep 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">Tirana International Film Festival</span><span class="sc-place">Tirana, Albania · Sep 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">CUFF Chicago Underground Film Festival</span><span class="sc-place">Chicago, USA · Sep 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">Montrose LandxSea Film Festival</span><span class="sc-place">Montrose, Scotland · Sep 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">Camden International Film Festival</span><span class="sc-place">Camden, USA · Sep 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">Antimatter Media Art Festival</span><span class="sc-place">Victoria, Canada · Oct 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">Science New Wave Festival</span><span class="sc-place">New York, USA · Oct 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">Maryland Film Festival</span><span class="sc-place">Baltimore, USA · Nov 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">Miradas Medellín</span><span class="sc-place">Medellín, Colombia · Nov 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">ZINEBI Festival Internacional de Cine</span><span class="sc-place">Bilbao, Spain · Nov 2025</span></div>
-          <div class="sc-row"><span class="sc-festival">Big Sky Documentary Film Festival</span><span class="sc-place">Missoula, USA · Feb 2026</span></div>
-          <div class="sc-row"><span class="sc-festival">Images Film Festival</span><span class="sc-place">Toronto, Canada</span></div>
-          <div class="sc-row"><span class="sc-festival">Athens Film and Video Festival</span><span class="sc-place">Athens, USA</span></div>
-          <div class="sc-row"><span class="sc-festival">CRFIC — Festival Internacional de Cine</span><span class="sc-place">Costa Rica</span></div>
-        </div>
-
+      <div class="crew-block">
+        <span class="block-label">Credits</span>
+        <div class="crew-row"><span class="crew-role">Produced by</span><span class="crew-name">Maria Luisa Santos, Dominic Yarabe</span></div>
+        <div class="crew-row"><span class="crew-role">Music</span><span class="crew-name">Tarin Clott</span></div>
+        <div class="crew-row"><span class="crew-role">Sound Design &amp; Mix</span><span class="crew-name">Carlos Aguilar / A Tropics Company</span></div>
+        <div class="crew-row"><span class="crew-role">Additional DP</span><span class="crew-name">Pietro Bulgarelli</span></div>
+        <div class="crew-row"><span class="crew-role">Featuring</span><span class="crew-name">Brian Gleeney, Rebecca Mora, Angelique Allen</span></div>
       </div>
 
-      <!-- RIGHT: poster + stills -->
-      <div class="right">
-        <div class="poster-wrap">
-          <img src="images/animal-eye/animaleyeposter.jpg" alt="Animal Eye poster" data-src="images/animal-eye/animaleyeposter.jpg">
+      <div class="awards-block">
+        <span class="block-label">Awards</span>
+        <div class="award-item">
+          <div class="award-name">Student Academy Awards — Semi-Finalist</div>
         </div>
-        <a class="side-still" href="#" data-src="images/animal-eye/animaleye2.jpg">
-          <img src="images/animal-eye/animaleye2.jpg" alt="">
-        </a>
-        <a class="side-still" href="#" data-src="images/animal-eye/animaleye6.jpg">
-          <img src="images/animal-eye/animaleye6.jpg" alt="">
-        </a>
+        <div class="award-item">
+          <div class="award-name">Jury Award</div>
+          <div class="award-sub">Tirana International Film Festival · Albania</div>
+        </div>
+        <div class="award-item">
+          <div class="award-name">Made In Costa Rica — Winner</div>
+          <div class="award-sub">SHNIT · San José</div>
+        </div>
+      </div>
+
+      <div class="screenings-block">
+        <span class="block-label">Screenings</span>
+        <div class="sc-row"><span class="sc-festival">True/False Film Festival</span><span class="sc-place">Columbia · Feb 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">Sheffield Doc Fest</span><span class="sc-place">Sheffield · Jun 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">Guanajuato International Film Festival</span><span class="sc-place">México · Jul 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">Mimesis Documentary Festival</span><span class="sc-place">Boulder · Aug 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">SHNIT</span><span class="sc-place">San José · Aug 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">Drama International Short Film Festival</span><span class="sc-place">Greece · Sep 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">Tirana International Film Festival</span><span class="sc-place">Albania · Sep 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">CUFF Chicago Underground Film Festival</span><span class="sc-place">Chicago · Sep 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">Montrose LandxSea Film Festival</span><span class="sc-place">Scotland · Sep 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">Camden International Film Festival</span><span class="sc-place">Camden · Sep 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">Antimatter Media Art Festival</span><span class="sc-place">Victoria · Oct 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">Science New Wave Festival</span><span class="sc-place">New York · Oct 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">Maryland Film Festival</span><span class="sc-place">Baltimore · Nov 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">Miradas Medellín</span><span class="sc-place">Medellín · Nov 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">ZINEBI Festival Internacional de Cine</span><span class="sc-place">Bilbao · Nov 2025</span></div>
+        <div class="sc-row"><span class="sc-festival">Big Sky Documentary Film Festival</span><span class="sc-place">Missoula · Feb 2026</span></div>
+        <div class="sc-row"><span class="sc-festival">Images Film Festival</span><span class="sc-place">Toronto</span></div>
+        <div class="sc-row"><span class="sc-festival">Athens Film and Video Festival</span><span class="sc-place">Athens, USA</span></div>
+        <div class="sc-row"><span class="sc-festival">CRFIC — Festival Internacional de Cine</span><span class="sc-place">Costa Rica</span></div>
+      </div>
+
+      <div class="poster-block">
+        <span class="block-label">Poster</span>
+        <img src="images/animal-eye/animaleyeposter.jpg" alt="Animal Eye poster" data-src="images/animal-eye/animaleyeposter.jpg">
       </div>
 
     </div>
@@ -408,8 +396,12 @@
 
   <!-- Stills -->
   <div class="stills-section">
-    <span class="sub-label">Stills</span>
+    <div class="stills-header">
+      <span class="block-label">Stills</span>
+    </div>
     <div class="stills-grid">
+      <a class="still-card" href="#" data-src="images/animal-eye/animaleye2.jpg"><img src="images/animal-eye/animaleye2.jpg" alt=""></a>
+      <a class="still-card" href="#" data-src="images/animal-eye/animaleye6.jpg"><img src="images/animal-eye/animaleye6.jpg" alt=""></a>
       <a class="still-card" href="#" data-src="images/animal-eye/animaleye7.jpg"><img src="images/animal-eye/animaleye7.jpg" alt=""></a>
       <a class="still-card" href="#" data-src="images/animal-eye/animaleye8.jpg"><img src="images/animal-eye/animaleye8.jpg" alt=""></a>
       <a class="still-card" href="#" data-src="images/animal-eye/animaleye9.jpg"><img src="images/animal-eye/animaleye9.jpg" alt=""></a>
@@ -421,7 +413,7 @@
 
   <footer class="page-footer">
     <a href="index.html" class="footer-name">carlo nasisse</a>
-    <a href="index.html" class="footer-back">← all work</a>
+    <a href="index.html" class="footer-link">← all work</a>
   </footer>
 
   <!-- Lightbox -->
@@ -434,7 +426,7 @@
   </div>
 
   <script>
-    const allCards = [...document.querySelectorAll('.still-card, .side-still, .poster-wrap img')];
+    const allCards = [...document.querySelectorAll('.still-card, .poster-block img')];
     const srcs     = allCards.map(c => c.dataset.src || c.src);
     const lightbox = document.getElementById('lightbox');
     const lbImg    = document.getElementById('lb-img');
@@ -458,8 +450,8 @@
 
     const close = () => { lightbox.classList.remove('active'); document.body.style.overflow = ''; };
     document.getElementById('lb-close').addEventListener('click', close);
-    document.getElementById('lb-prev').addEventListener('click', () => show((current - 1 + srcs.length) % srcs.length));
-    document.getElementById('lb-next').addEventListener('click', () => show((current + 1) % srcs.length));
+    document.getElementById('lb-prev').addEventListener('click',  () => show((current - 1 + srcs.length) % srcs.length));
+    document.getElementById('lb-next').addEventListener('click',  () => show((current + 1) % srcs.length));
     lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
     document.addEventListener('keydown', e => {
       if (!lightbox.classList.contains('active')) return;
