@@ -8,452 +8,210 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
-      --orange: #e6510a;
-      --bg: #f8f7f4;
-      --text: #2a2826;
-      --muted: #9a9590;
-      --divider: #e2dfd9;
+      --orange: #e6510a; --bg: #f8f7f4; --text: #2a2826;
+      --muted: #9a9590; --divider: #e2dfd9;
       --ease: cubic-bezier(0.4, 0, 0.2, 1);
     }
-
     html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Jost', sans-serif; font-weight: 300; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-    }
-
-    /* ── BACK LINK ── */
     .back {
-      position: fixed;
-      top: 26px; left: 22px;
-      z-index: 50;
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.75);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 7px;
+      position: fixed; top: 26px; left: 22px; z-index: 50;
+      font-family: 'Jost', sans-serif; font-weight: 300;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.75); text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
       transition: color 0.2s ease;
-      mix-blend-mode: normal;
     }
-
     .back::before {
-      content: '';
-      display: block;
-      width: 16px; height: 1px;
+      content: ''; display: block; width: 18px; height: 1px;
       background: rgba(255,255,255,0.75);
       transition: width 0.3s var(--ease);
     }
-
     .back:hover { color: white; }
-    .back:hover::before { width: 22px; background: white; }
+    .back:hover::before { width: 24px; background: white; }
 
-    /* ── HERO ── */
-    .hero {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    .hero-img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: brightness(0.72);
-    }
-
-    .hero-title {
-      position: absolute;
-      bottom: 52px; left: 52px;
-    }
-
+    .hero { position: relative; width: 100%; height: 100vh; overflow: hidden; opacity: 0; animation: fadeIn 1s ease 0.1s both; }
+    .hero-img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.7); }
+    .hero-title { position: absolute; bottom: 52px; left: 52px; }
     .hero-title h1 {
-      font-family: 'Cormorant', serif;
-      font-style: italic;
-      font-weight: 300;
+      font-family: 'Cormorant', serif; font-style: italic; font-weight: 300;
       font-size: clamp(38px, 5vw, 64px);
-      color: rgba(252,248,240,0.95);
-      letter-spacing: 0.02em;
-      line-height: 1.1;
+      color: rgba(252,248,240,0.95); letter-spacing: 0.02em; line-height: 1.1;
     }
-
-    .hero-title .year {
-      display: block;
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(252,248,240,0.55);
-      margin-top: 10px;
+    .hero-title .subtitle {
+      display: block; font-family: 'Jost', sans-serif; font-weight: 300;
+      font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(252,248,240,0.5); margin-top: 10px;
     }
-
-    /* ── SCROLL INDICATOR ── */
     .scroll-hint {
-      position: absolute;
-      bottom: 32px; right: 36px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
+      position: absolute; bottom: 32px; right: 36px;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
       animation: scrollFade 2.5s ease-in-out infinite;
     }
-
     .scroll-hint span {
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: 9px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+      font-family: 'Jost', sans-serif; font-weight: 300;
+      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
       color: rgba(255,255,255,0.4);
     }
+    .scroll-line { width: 1px; height: 32px; background: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent); }
+    @keyframes scrollFade { 0%,100% { opacity:0.6; transform:translateY(0); } 50% { opacity:1; transform:translateY(4px); } }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
-    .scroll-line {
-      width: 1px; height: 32px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
-    }
+    .content { max-width: 1200px; margin: 0 auto; padding: 0 52px; }
+    .content > * { opacity: 0; animation: fadeUp 0.7s ease both; }
+    .section-intro  { animation-delay: 0.25s; }
+    .section-stills { animation-delay: 0.30s; }
+    .section-awards { animation-delay: 0.35s; }
+    .section-poster { animation-delay: 0.40s; }
 
-    @keyframes scrollFade {
-      0%, 100% { opacity: 0.6; transform: translateY(0); }
-      50%       { opacity: 1;   transform: translateY(4px); }
-    }
-
-    /* ── CONTENT WRAPPER ── */
-    .content {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 52px;
-    }
-
-    /* ── DESCRIPTION SECTION ── */
+    /* 3-col intro */
     .section-intro {
-      padding: 96px 0 80px;
+      padding: 72px 0 68px;
       display: grid;
-      grid-template-columns: 1fr 1.8fr;
-      gap: 80px;
+      grid-template-columns: 170px 1fr 260px;
       align-items: start;
       border-bottom: 1px solid var(--divider);
     }
 
-    /* Left column — metadata */
-    .meta {
-      padding-top: 6px;
-    }
-
-    .meta-row {
-      margin-bottom: 22px;
-    }
-
+    .meta { padding-top: 2px; padding-right: 36px; }
+    .meta-row { margin-bottom: 20px; }
     .meta-label {
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: 9px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      display: block;
-      margin-bottom: 5px;
+      font-family: 'Jost', sans-serif; font-weight: 300;
+      font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted); display: block; margin-bottom: 4px;
     }
-
     .meta-value {
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: 12.5px;
-      color: var(--text);
-      line-height: 1.7;
-      letter-spacing: 0.01em;
+      font-family: 'Jost', sans-serif; font-weight: 300;
+      font-size: 12px; color: var(--text); line-height: 1.75;
     }
 
-    .meta-value a {
-      color: var(--orange);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(230,81,10,0.25);
-      transition: border-color 0.2s ease;
-    }
-    .meta-value a:hover { border-color: var(--orange); }
-
-    /* Right column — description + crew */
     .description {
-      padding-top: 4px;
+      border-left: 1px solid var(--divider);
+      padding: 2px 48px 0;
     }
-
     .description blockquote {
-      font-family: 'Cormorant', serif;
-      font-weight: 300;
-      font-size: clamp(20px, 2.2vw, 26px);
-      line-height: 1.55;
-      color: var(--text);
-      letter-spacing: 0.01em;
-      margin-bottom: 40px;
+      font-family: 'Cormorant', serif; font-weight: 300;
+      font-size: clamp(17px, 1.6vw, 21px);
+      line-height: 1.65; color: var(--text); margin-bottom: 36px;
     }
-
     .crew-list {
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 2.0;
-      letter-spacing: 0.01em;
+      font-family: 'Jost', sans-serif; font-weight: 300;
+      font-size: 11.5px; color: var(--muted); line-height: 2.0;
     }
+    .crew-list strong { color: #6e6b67; font-weight: 400; }
 
-    .crew-list strong {
-      color: #6e6b67;
-      font-weight: 400;
-    }
-
-    /* ── STILLS ── */
-    .section-stills {
-      padding: 80px 0;
-      border-bottom: 1px solid var(--divider);
+    .screenings-col {
+      border-left: 1px solid var(--divider);
+      padding-left: 36px; padding-top: 2px;
     }
 
     .section-label {
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: 9px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      display: block;
-      margin-bottom: 28px;
+      font-family: 'Jost', sans-serif; font-weight: 300;
+      font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted); display: block; margin-bottom: 14px;
     }
 
-    .stills-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-    }
+    .sc-item { padding: 8px 0; border-top: 1px solid var(--divider); }
+    .sc-name { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 11px; color: var(--text); line-height: 1.4; }
+    .sc-loc  { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 10px; color: var(--muted); margin-top: 1px; }
 
-    /* Still card — same grain/hover as homepage */
-    .still-card {
-      position: relative;
-      overflow: hidden;
-      aspect-ratio: 3 / 2;
-      background: #ccc9c3;
-      display: block;
-      cursor: zoom-in;
-    }
-
+    /* Stills */
+    .section-stills { padding: 72px 0; border-bottom: 1px solid var(--divider); }
+    .stills-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin-top: 20px; }
+    .still-card { position: relative; overflow: hidden; aspect-ratio: 3/2; background: #ccc9c3; display: block; cursor: zoom-in; }
     .still-card img {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
-      filter: brightness(0.82) saturate(0.88);
-      transform: scale(1.04);
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      filter: brightness(0.82) saturate(0.88); transform: scale(1.04);
       transition: filter 0.7s var(--ease), transform 0.9s var(--ease);
-      will-change: filter, transform;
     }
-
-    .still-card:hover img {
-      filter: brightness(1.0) saturate(1.0);
-      transform: scale(1.0);
-    }
-
-    /* Grain overlay */
+    .still-card:hover img { filter: brightness(1.0) saturate(1.0); transform: scale(1.0); }
     .still-card::after {
-      content: ''; position: absolute; inset: 0; z-index: 2;
-      pointer-events: none;
+      content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      background-size: 260px 260px;
-      mix-blend-mode: soft-light;
-      opacity: 0.38;
-      transition: opacity 0.7s var(--ease);
+      background-size: 260px 260px; mix-blend-mode: soft-light;
+      opacity: 0.38; transition: opacity 0.7s var(--ease);
     }
     .still-card:hover::after { opacity: 0; }
 
-    /* ── AWARDS ── */
-    .section-awards {
-      padding: 72px 0;
-      border-bottom: 1px solid var(--divider);
-      display: grid;
-      grid-template-columns: 1fr 1.8fr;
-      gap: 80px;
-    }
+    /* Awards */
+    .section-awards { padding: 64px 0; border-bottom: 1px solid var(--divider); display: grid; grid-template-columns: 170px 1fr; }
+    .awards-col { border-left: 1px solid var(--divider); padding-left: 40px; }
+    .award-item { padding: 14px 0; border-top: 1px solid var(--divider); }
+    .award-name { font-family: 'Cormorant', serif; font-weight: 400; font-size: 15px; color: var(--text); line-height: 1.4; }
+    .award-fest { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 11px; color: var(--muted); margin-top: 3px; }
 
-    .award-item {
-      padding: 16px 0;
-      border-top: 1px solid var(--divider);
-    }
-
-    .award-name {
-      font-family: 'Cormorant', serif;
-      font-weight: 400;
-      font-size: 15px;
-      color: var(--text);
-      letter-spacing: 0.02em;
-      line-height: 1.4;
-    }
-
-    .award-festival {
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-      margin-top: 3px;
-    }
-
-    /* ── SCREENINGS ── */
-    .section-screenings {
-      padding: 72px 0;
-      border-bottom: 1px solid var(--divider);
-      display: grid;
-      grid-template-columns: 1fr 1.8fr;
-      gap: 80px;
-    }
-
-    .screening-item {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: baseline;
-      padding: 13px 0;
-      border-top: 1px solid var(--divider);
-      gap: 24px;
-    }
-
-    .screening-festival {
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: 12.5px;
-      color: var(--text);
-      letter-spacing: 0.01em;
-    }
-
-    .screening-location {
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.02em;
-      white-space: nowrap;
-    }
-
-    /* ── POSTER ── */
-    .section-poster {
-      padding: 80px 0 120px;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .poster-wrap {
-      width: 28%;
-      min-width: 200px;
-    }
-
-    .poster-wrap img {
-      width: 100%;
-      display: block;
-      filter: brightness(0.95);
-      transition: filter 0.5s ease;
-    }
+    /* Poster */
+    .section-poster { padding: 80px 0 110px; display: flex; justify-content: flex-end; }
+    .poster-wrap { width: 26%; min-width: 180px; }
+    .poster-wrap img { width: 100%; display: block; filter: brightness(0.95); transition: filter 0.5s ease; }
     .poster-wrap img:hover { filter: brightness(1.0); }
 
-    /* ── FOOTER ── */
-    .page-footer {
-      border-top: 1px solid var(--divider);
-      padding: 28px 52px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-name {
-      font-family: 'Cormorant', serif;
-      font-weight: 400;
-      font-size: 14px;
-      color: var(--orange);
-      text-decoration: none;
-      letter-spacing: 0.02em;
-    }
-
-    .footer-back {
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
+    /* Footer */
+    .page-footer { border-top: 1px solid var(--divider); padding: 26px 52px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-name { font-family: 'Cormorant', serif; font-weight: 400; font-size: 14px; color: var(--orange); text-decoration: none; }
+    .footer-back { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .footer-back:hover { color: var(--text); }
 
-    /* ── LOAD ANIMATION ── */
-    .hero { opacity: 0; animation: fadeIn 1s ease 0.1s both; }
-    .content > * { opacity: 0; animation: fadeUp 0.7s ease both; }
-    .section-intro  { animation-delay: 0.3s; }
-    .section-stills { animation-delay: 0.35s; }
-    .section-awards { animation-delay: 0.4s; }
-    .section-screenings { animation-delay: 0.45s; }
-    .section-poster { animation-delay: 0.5s; }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    /* Lightbox */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(10,8,6,0.96);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s var(--ease);
+    }
+    .lightbox.active { opacity: 1; pointer-events: all; }
+    .lb-img { max-width: 88vw; max-height: 88vh; object-fit: contain; display: block; opacity: 0; transition: opacity 0.3s ease; }
+    .lightbox.active .lb-img { opacity: 1; }
+    .lb-close { position: absolute; top: 24px; right: 28px; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .lb-close::before, .lb-close::after { content: ''; position: absolute; width: 20px; height: 1px; background: rgba(255,255,255,0.6); }
+    .lb-close::before { transform: rotate(45deg); }
+    .lb-close::after  { transform: rotate(-45deg); }
+    .lb-close:hover::before, .lb-close:hover::after { background: white; }
+    .lb-prev, .lb-next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; opacity: 0.5; transition: opacity 0.2s;
+    }
+    .lb-prev:hover, .lb-next:hover { opacity: 1; }
+    .lb-prev { left: 24px; }
+    .lb-next { right: 24px; }
+    .lb-prev::before, .lb-next::before { content: ''; width: 10px; height: 10px; border-top: 1.5px solid white; border-left: 1.5px solid white; display: block; }
+    .lb-prev::before { transform: rotate(-45deg) translate(2px,-2px); }
+    .lb-next::before { transform: rotate(135deg) translate(2px,-2px); }
+    .lb-counter { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); font-family: 'Jost', sans-serif; font-weight: 300; font-size: 10px; letter-spacing: 0.18em; color: rgba(255,255,255,0.35); }
   </style>
 </head>
 <body>
 
   <a href="index.html" class="back">All work</a>
 
-  <!-- ── HERO ── -->
   <section class="hero">
     <img class="hero-img" src="images/animal-eye/animaleye1.jpg" alt="Animal Eye">
     <div class="hero-title">
       <h1>Animal Eye</h1>
-      <span class="year">2024 · 13:48 · 16mm</span>
+      <span class="subtitle">2024 · 13:48 · 16mm</span>
     </div>
-    <div class="scroll-hint">
-      <span>scroll</span>
-      <div class="scroll-line"></div>
-    </div>
+    <div class="scroll-hint"><span>scroll</span><div class="scroll-line"></div></div>
   </section>
 
-  <!-- ── CONTENT ── -->
   <div class="content">
 
-    <!-- Intro: metadata + description -->
     <div class="section-intro">
-
       <div class="meta">
-        <div class="meta-row">
-          <span class="meta-label">Format</span>
-          <span class="meta-value">Single-channel 16mm</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">Year</span>
-          <span class="meta-value">2024</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">Duration</span>
-          <span class="meta-value">13:48</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">Direction</span>
-          <span class="meta-value">Carlo Nasisse</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">Cinematography</span>
-          <span class="meta-value">Carlo Nasisse</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">Produced by</span>
-          <span class="meta-value">Maria Luisa Santos<br>Dominic Yarabe</span>
-        </div>
+        <div class="meta-row"><span class="meta-label">Format</span><span class="meta-value">Single-channel 16mm</span></div>
+        <div class="meta-row"><span class="meta-label">Year</span><span class="meta-value">2024</span></div>
+        <div class="meta-row"><span class="meta-label">Duration</span><span class="meta-value">13:48</span></div>
+        <div class="meta-row"><span class="meta-label">Direction</span><span class="meta-value">Carlo Nasisse</span></div>
+        <div class="meta-row"><span class="meta-label">Cinematography</span><span class="meta-value">Carlo Nasisse</span></div>
+        <div class="meta-row"><span class="meta-label">Produced by</span><span class="meta-value">Maria Luisa Santos<br>Dominic Yarabe</span></div>
       </div>
 
       <div class="description">
-        <blockquote>
-          Scientists and philosophers encounter the limits of their own vision through the eyes of animals.
-        </blockquote>
+        <blockquote>Scientists and philosophers encounter the limits of their own vision through the eyes of animals.</blockquote>
         <div class="crew-list">
           <strong>Music</strong> Tarin Clott<br>
           <strong>Sound Design &amp; Mix</strong> Carlos Aguilar / A Tropics Company<br>
@@ -462,133 +220,50 @@
         </div>
       </div>
 
+      <div class="screenings-col">
+        <span class="section-label">Screenings</span>
+        <div class="sc-item"><div class="sc-name">True/False Film Festival</div><div class="sc-loc">Columbia, USA · Feb 2025</div></div>
+        <div class="sc-item"><div class="sc-name">Sheffield Doc Fest</div><div class="sc-loc">Sheffield, UK · Jun 2025</div></div>
+        <div class="sc-item"><div class="sc-name">Guanajuato IFF</div><div class="sc-loc">Guanajuato, México · Jul 2025</div></div>
+        <div class="sc-item"><div class="sc-name">Mimesis Documentary Festival</div><div class="sc-loc">Boulder, USA · Aug 2025</div></div>
+        <div class="sc-item"><div class="sc-name">SHNIT</div><div class="sc-loc">San José, Costa Rica · Aug 2025</div></div>
+        <div class="sc-item"><div class="sc-name">Drama International Short Film Festival</div><div class="sc-loc">Drama, Greece · Sep 2025</div></div>
+        <div class="sc-item"><div class="sc-name">Tirana IFF</div><div class="sc-loc">Tirana, Albania · Sep 2025</div></div>
+        <div class="sc-item"><div class="sc-name">CUFF Chicago Underground</div><div class="sc-loc">Chicago, USA · Sep 2025</div></div>
+        <div class="sc-item"><div class="sc-name">Montrose LandxSea</div><div class="sc-loc">Montrose, Scotland · Sep 2025</div></div>
+        <div class="sc-item"><div class="sc-name">Camden IFF</div><div class="sc-loc">Camden, USA · Sep 2025</div></div>
+        <div class="sc-item"><div class="sc-name">Antimatter Media Art Festival</div><div class="sc-loc">Victoria, Canada · Oct 2025</div></div>
+        <div class="sc-item"><div class="sc-name">Science New Wave Festival</div><div class="sc-loc">New York, USA · Oct 2025</div></div>
+        <div class="sc-item"><div class="sc-name">Maryland Film Festival</div><div class="sc-loc">Baltimore, USA · Nov 2025</div></div>
+        <div class="sc-item"><div class="sc-name">Miradas Medellín</div><div class="sc-loc">Medellín, Colombia · Nov 2025</div></div>
+        <div class="sc-item"><div class="sc-name">ZINEBI Festival Internacional de Cine</div><div class="sc-loc">Bilbao, Spain · Nov 2025</div></div>
+        <div class="sc-item"><div class="sc-name">Big Sky Documentary Film Festival</div><div class="sc-loc">Missoula, USA · Feb 2026</div></div>
+      </div>
     </div>
 
-    <!-- Stills -->
     <div class="section-stills">
       <span class="section-label">Stills</span>
       <div class="stills-grid">
-        <a class="still-card" href="images/animal-eye/animaleye2.jpg">
-          <img src="images/animal-eye/animaleye2.jpg" alt="">
-        </a>
-        <a class="still-card" href="images/animal-eye/animaleye6.jpg">
-          <img src="images/animal-eye/animaleye6.jpg" alt="">
-        </a>
-        <a class="still-card" href="images/animal-eye/animaleye7.jpg">
-          <img src="images/animal-eye/animaleye7.jpg" alt="">
-        </a>
-        <a class="still-card" href="images/animal-eye/animaleye8.jpg">
-          <img src="images/animal-eye/animaleye8.jpg" alt="">
-        </a>
-        <a class="still-card" href="images/animal-eye/animaleye9.jpg">
-          <img src="images/animal-eye/animaleye9.jpg" alt="">
-        </a>
-        <a class="still-card" href="images/animal-eye/animaleye10.jpg">
-          <img src="images/animal-eye/animaleye10.jpg" alt="">
-        </a>
-        <a class="still-card" href="images/animal-eye/animaleye11.jpg">
-          <img src="images/animal-eye/animaleye11.jpg" alt="">
-        </a>
-        <a class="still-card" href="images/animal-eye/animaleye12.jpg">
-          <img src="images/animal-eye/animaleye12.jpg" alt="">
-        </a>
+        <a class="still-card" href="#" data-src="images/animal-eye/animaleye2.jpg"><img src="images/animal-eye/animaleye2.jpg" alt=""></a>
+        <a class="still-card" href="#" data-src="images/animal-eye/animaleye6.jpg"><img src="images/animal-eye/animaleye6.jpg" alt=""></a>
+        <a class="still-card" href="#" data-src="images/animal-eye/animaleye7.jpg"><img src="images/animal-eye/animaleye7.jpg" alt=""></a>
+        <a class="still-card" href="#" data-src="images/animal-eye/animaleye8.jpg"><img src="images/animal-eye/animaleye8.jpg" alt=""></a>
+        <a class="still-card" href="#" data-src="images/animal-eye/animaleye9.jpg"><img src="images/animal-eye/animaleye9.jpg" alt=""></a>
+        <a class="still-card" href="#" data-src="images/animal-eye/animaleye10.jpg"><img src="images/animal-eye/animaleye10.jpg" alt=""></a>
+        <a class="still-card" href="#" data-src="images/animal-eye/animaleye11.jpg"><img src="images/animal-eye/animaleye11.jpg" alt=""></a>
+        <a class="still-card" href="#" data-src="images/animal-eye/animaleye12.jpg"><img src="images/animal-eye/animaleye12.jpg" alt=""></a>
       </div>
     </div>
 
-    <!-- Awards -->
     <div class="section-awards">
-      <div>
-        <span class="section-label">Awards</span>
-      </div>
-      <div>
-        <div class="award-item">
-          <div class="award-name">Student Academy Awards — Semi-Finalist</div>
-        </div>
-        <div class="award-item">
-          <div class="award-name">Jury Award</div>
-          <div class="award-festival">Tirana International Film Festival · Tirana, Albania</div>
-        </div>
-        <div class="award-item">
-          <div class="award-name">Made In Costa Rica — Winner</div>
-          <div class="award-festival">SHNIT · San José, Costa Rica</div>
-        </div>
+      <div><span class="section-label">Awards</span></div>
+      <div class="awards-col">
+        <div class="award-item"><div class="award-name">Student Academy Awards — Semi-Finalist</div></div>
+        <div class="award-item"><div class="award-name">Jury Award</div><div class="award-fest">Tirana International Film Festival · Tirana, Albania</div></div>
+        <div class="award-item"><div class="award-name">Made In Costa Rica — Winner</div><div class="award-fest">SHNIT · San José, Costa Rica</div></div>
       </div>
     </div>
 
-    <!-- Screenings -->
-    <div class="section-screenings">
-      <div>
-        <span class="section-label">Screenings</span>
-      </div>
-      <div>
-        <div class="screening-item">
-          <span class="screening-festival">True/False Film Festival</span>
-          <span class="screening-location">Columbia, USA · Feb 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">Sheffield Doc Fest</span>
-          <span class="screening-location">Sheffield, UK · Jun 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">Guanajuato International Film Festival</span>
-          <span class="screening-location">Guanajuato, México · Jul 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">Mimesis Documentary Festival</span>
-          <span class="screening-location">Boulder, USA · Aug 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">SHNIT</span>
-          <span class="screening-location">San José, Costa Rica · Aug 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">Drama International Short Film Festival</span>
-          <span class="screening-location">Drama, Greece · Sep 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">Tirana International Film Festival</span>
-          <span class="screening-location">Tirana, Albania · Sep 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">CUFF Chicago Underground Film Festival</span>
-          <span class="screening-location">Chicago, USA · Sep 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">Montrose LandxSea Film Festival</span>
-          <span class="screening-location">Montrose, Scotland · Sep 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">Camden International Film Festival</span>
-          <span class="screening-location">Camden, USA · Sep 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">Antimatter Media Art Festival</span>
-          <span class="screening-location">Victoria, Canada · Oct 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">Science New Wave Festival</span>
-          <span class="screening-location">New York, USA · Oct 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">Maryland Film Festival</span>
-          <span class="screening-location">Baltimore, USA · Nov 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">Miradas Medellín</span>
-          <span class="screening-location">Medellín, Colombia · Nov 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">ZINEBI Festival Internacional de Cine</span>
-          <span class="screening-location">Bilbao, Spain · Nov 2025</span>
-        </div>
-        <div class="screening-item">
-          <span class="screening-festival">Big Sky Documentary Film Festival</span>
-          <span class="screening-location">Missoula, USA · Feb 2026</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Poster -->
     <div class="section-poster">
       <div class="poster-wrap">
         <img src="images/animal-eye/animaleyeposter.jpg" alt="Animal Eye poster">
@@ -601,6 +276,44 @@
     <a href="index.html" class="footer-name">carlo nasisse</a>
     <a href="index.html" class="footer-back">← All work</a>
   </footer>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lb-close" id="lb-close"></div>
+    <div class="lb-prev"  id="lb-prev"></div>
+    <img class="lb-img"   id="lb-img" src="" alt="">
+    <div class="lb-next"  id="lb-next"></div>
+    <div class="lb-counter" id="lb-counter"></div>
+  </div>
+
+  <script>
+    const stills   = [...document.querySelectorAll('.still-card')];
+    const lightbox = document.getElementById('lightbox');
+    const lbImg    = document.getElementById('lb-img');
+    const lbCount  = document.getElementById('lb-counter');
+    const srcs     = stills.map(s => s.dataset.src);
+    let current    = 0;
+
+    function show(i) {
+      current = i;
+      lbImg.src = srcs[current];
+      lbCount.textContent = `${current + 1} / ${srcs.length}`;
+    }
+
+    stills.forEach((card, i) => {
+      card.addEventListener('click', e => { e.preventDefault(); show(i); lightbox.classList.add('active'); document.body.style.overflow = 'hidden'; });
+    });
+
+    document.getElementById('lb-close').addEventListener('click', () => { lightbox.classList.remove('active'); document.body.style.overflow = ''; });
+    document.getElementById('lb-prev').addEventListener('click', () => show((current - 1 + srcs.length) % srcs.length));
+    document.getElementById('lb-next').addEventListener('click', () => show((current + 1) % srcs.length));
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) { lightbox.classList.remove('active'); document.body.style.overflow = ''; } });
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape')     { lightbox.classList.remove('active'); document.body.style.overflow = ''; }
+      if (e.key === 'ArrowLeft')  show((current - 1 + srcs.length) % srcs.length);
+      if (e.key === 'ArrowRight') show((current + 1) % srcs.length);
+    });
+  </script>
 
 </body>
 </html>
