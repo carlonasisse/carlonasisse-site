@@ -216,6 +216,8 @@
     const peekEl  = document.getElementById('peek-indicator');
     const grid    = document.getElementById('grid');
     const cards   = [...document.querySelectorAll('.film-card')];
+    cards.sort(() => Math.random() - 0.5);
+cards.forEach(card => grid.appendChild(card));
 
     /* CURSOR */
     document.addEventListener('mousemove', e => {
