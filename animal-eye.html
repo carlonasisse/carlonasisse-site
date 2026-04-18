@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animal Eye — Carlo Nasisse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --orange: #e6510a;
+      --bg: #f8f7f4;
+      --text: #2a2826;
+      --muted: #9a9590;
+      --divider: #e2dfd9;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+    }
+
+    /* ── BACK LINK ── */
+    .back {
+      position: fixed;
+      top: 26px; left: 22px;
+      z-index: 50;
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: color 0.2s ease;
+      mix-blend-mode: normal;
+    }
+
+    .back::before {
+      content: '';
+      display: block;
+      width: 16px; height: 1px;
+      background: rgba(255,255,255,0.75);
+      transition: width 0.3s var(--ease);
+    }
+
+    .back:hover { color: white; }
+    .back:hover::before { width: 22px; background: white; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .hero-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.72);
+    }
+
+    .hero-title {
+      position: absolute;
+      bottom: 52px; left: 52px;
+    }
+
+    .hero-title h1 {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(38px, 5vw, 64px);
+      color: rgba(252,248,240,0.95);
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+    }
+
+    .hero-title .year {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(252,248,240,0.55);
+      margin-top: 10px;
+    }
+
+    /* ── SCROLL INDICATOR ── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px; right: 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      animation: scrollFade 2.5s ease-in-out infinite;
+    }
+
+    .scroll-hint span {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .scroll-line {
+      width: 1px; height: 32px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+    }
+
+    @keyframes scrollFade {
+      0%, 100% { opacity: 0.6; transform: translateY(0); }
+      50%       { opacity: 1;   transform: translateY(4px); }
+    }
+
+    /* ── CONTENT WRAPPER ── */
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 52px;
+    }
+
+    /* ── DESCRIPTION SECTION ── */
+    .section-intro {
+      padding: 96px 0 80px;
+      display: grid;
+      grid-template-columns: 1fr 1.8fr;
+      gap: 80px;
+      align-items: start;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    /* Left column — metadata */
+    .meta {
+      padding-top: 6px;
+    }
+
+    .meta-row {
+      margin-bottom: 22px;
+    }
+
+    .meta-label {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .meta-value {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 12.5px;
+      color: var(--text);
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+    }
+
+    .meta-value a {
+      color: var(--orange);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(230,81,10,0.25);
+      transition: border-color 0.2s ease;
+    }
+    .meta-value a:hover { border-color: var(--orange); }
+
+    /* Right column — description + crew */
+    .description {
+      padding-top: 4px;
+    }
+
+    .description blockquote {
+      font-family: 'Cormorant', serif;
+      font-weight: 300;
+      font-size: clamp(20px, 2.2vw, 26px);
+      line-height: 1.55;
+      color: var(--text);
+      letter-spacing: 0.01em;
+      margin-bottom: 40px;
+    }
+
+    .crew-list {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 2.0;
+      letter-spacing: 0.01em;
+    }
+
+    .crew-list strong {
+      color: #6e6b67;
+      font-weight: 400;
+    }
+
+    /* ── STILLS ── */
+    .section-stills {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .section-label {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 28px;
+    }
+
+    .stills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    /* Still card — same grain/hover as homepage */
+    .still-card {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 3 / 2;
+      background: #ccc9c3;
+      display: block;
+      cursor: zoom-in;
+    }
+
+    .still-card img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      filter: brightness(0.82) saturate(0.88);
+      transform: scale(1.04);
+      transition: filter 0.7s var(--ease), transform 0.9s var(--ease);
+      will-change: filter, transform;
+    }
+
+    .still-card:hover img {
+      filter: brightness(1.0) saturate(1.0);
+      transform: scale(1.0);
+    }
+
+    /* Grain overlay */
+    .still-card::after {
+      content: ''; position: absolute; inset: 0; z-index: 2;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-size: 260px 260px;
+      mix-blend-mode: soft-light;
+      opacity: 0.38;
+      transition: opacity 0.7s var(--ease);
+    }
+    .still-card:hover::after { opacity: 0; }
+
+    /* ── AWARDS ── */
+    .section-awards {
+      padding: 72px 0;
+      border-bottom: 1px solid var(--divider);
+      display: grid;
+      grid-template-columns: 1fr 1.8fr;
+      gap: 80px;
+    }
+
+    .award-item {
+      padding: 16px 0;
+      border-top: 1px solid var(--divider);
+    }
+
+    .award-name {
+      font-family: 'Cormorant', serif;
+      font-weight: 400;
+      font-size: 15px;
+      color: var(--text);
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+    }
+
+    .award-festival {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      margin-top: 3px;
+    }
+
+    /* ── SCREENINGS ── */
+    .section-screenings {
+      padding: 72px 0;
+      border-bottom: 1px solid var(--divider);
+      display: grid;
+      grid-template-columns: 1fr 1.8fr;
+      gap: 80px;
+    }
+
+    .screening-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      padding: 13px 0;
+      border-top: 1px solid var(--divider);
+      gap: 24px;
+    }
+
+    .screening-festival {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 12.5px;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+
+    .screening-location {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    /* ── POSTER ── */
+    .section-poster {
+      padding: 80px 0 120px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .poster-wrap {
+      width: 28%;
+      min-width: 200px;
+    }
+
+    .poster-wrap img {
+      width: 100%;
+      display: block;
+      filter: brightness(0.95);
+      transition: filter 0.5s ease;
+    }
+    .poster-wrap img:hover { filter: brightness(1.0); }
+
+    /* ── FOOTER ── */
+    .page-footer {
+      border-top: 1px solid var(--divider);
+      padding: 28px 52px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-name {
+      font-family: 'Cormorant', serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--orange);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .footer-back {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-back:hover { color: var(--text); }
+
+    /* ── LOAD ANIMATION ── */
+    .hero { opacity: 0; animation: fadeIn 1s ease 0.1s both; }
+    .content > * { opacity: 0; animation: fadeUp 0.7s ease both; }
+    .section-intro  { animation-delay: 0.3s; }
+    .section-stills { animation-delay: 0.35s; }
+    .section-awards { animation-delay: 0.4s; }
+    .section-screenings { animation-delay: 0.45s; }
+    .section-poster { animation-delay: 0.5s; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back">All work</a>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <img class="hero-img" src="images/animal-eye/animaleye1.jpg" alt="Animal Eye">
+    <div class="hero-title">
+      <h1>Animal Eye</h1>
+      <span class="year">2024 · 13:48 · 16mm</span>
+    </div>
+    <div class="scroll-hint">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ── CONTENT ── -->
+  <div class="content">
+
+    <!-- Intro: metadata + description -->
+    <div class="section-intro">
+
+      <div class="meta">
+        <div class="meta-row">
+          <span class="meta-label">Format</span>
+          <span class="meta-value">Single-channel 16mm</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Year</span>
+          <span class="meta-value">2024</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Duration</span>
+          <span class="meta-value">13:48</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Direction</span>
+          <span class="meta-value">Carlo Nasisse</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Cinematography</span>
+          <span class="meta-value">Carlo Nasisse</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Produced by</span>
+          <span class="meta-value">Maria Luisa Santos<br>Dominic Yarabe</span>
+        </div>
+      </div>
+
+      <div class="description">
+        <blockquote>
+          Scientists and philosophers encounter the limits of their own vision through the eyes of animals.
+        </blockquote>
+        <div class="crew-list">
+          <strong>Music</strong> Tarin Clott<br>
+          <strong>Sound Design &amp; Mix</strong> Carlos Aguilar / A Tropics Company<br>
+          <strong>Additional Cinematography</strong> Pietro Bulgarelli<br>
+          <strong>Featuring</strong> Brian Gleeney, Rebecca Mora, Angelique Allen
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Stills -->
+    <div class="section-stills">
+      <span class="section-label">Stills</span>
+      <div class="stills-grid">
+        <a class="still-card" href="images/animal-eye/animaleye2.jpg">
+          <img src="images/animal-eye/animaleye2.jpg" alt="">
+        </a>
+        <a class="still-card" href="images/animal-eye/animaleye6.jpg">
+          <img src="images/animal-eye/animaleye6.jpg" alt="">
+        </a>
+        <a class="still-card" href="images/animal-eye/animaleye7.jpg">
+          <img src="images/animal-eye/animaleye7.jpg" alt="">
+        </a>
+        <a class="still-card" href="images/animal-eye/animaleye8.jpg">
+          <img src="images/animal-eye/animaleye8.jpg" alt="">
+        </a>
+        <a class="still-card" href="images/animal-eye/animaleye9.jpg">
+          <img src="images/animal-eye/animaleye9.jpg" alt="">
+        </a>
+        <a class="still-card" href="images/animal-eye/animaleye10.jpg">
+          <img src="images/animal-eye/animaleye10.jpg" alt="">
+        </a>
+        <a class="still-card" href="images/animal-eye/animaleye11.jpg">
+          <img src="images/animal-eye/animaleye11.jpg" alt="">
+        </a>
+        <a class="still-card" href="images/animal-eye/animaleye12.jpg">
+          <img src="images/animal-eye/animaleye12.jpg" alt="">
+        </a>
+      </div>
+    </div>
+
+    <!-- Awards -->
+    <div class="section-awards">
+      <div>
+        <span class="section-label">Awards</span>
+      </div>
+      <div>
+        <div class="award-item">
+          <div class="award-name">Student Academy Awards — Semi-Finalist</div>
+        </div>
+        <div class="award-item">
+          <div class="award-name">Jury Award</div>
+          <div class="award-festival">Tirana International Film Festival · Tirana, Albania</div>
+        </div>
+        <div class="award-item">
+          <div class="award-name">Made In Costa Rica — Winner</div>
+          <div class="award-festival">SHNIT · San José, Costa Rica</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screenings -->
+    <div class="section-screenings">
+      <div>
+        <span class="section-label">Screenings</span>
+      </div>
+      <div>
+        <div class="screening-item">
+          <span class="screening-festival">True/False Film Festival</span>
+          <span class="screening-location">Columbia, USA · Feb 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">Sheffield Doc Fest</span>
+          <span class="screening-location">Sheffield, UK · Jun 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">Guanajuato International Film Festival</span>
+          <span class="screening-location">Guanajuato, México · Jul 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">Mimesis Documentary Festival</span>
+          <span class="screening-location">Boulder, USA · Aug 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">SHNIT</span>
+          <span class="screening-location">San José, Costa Rica · Aug 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">Drama International Short Film Festival</span>
+          <span class="screening-location">Drama, Greece · Sep 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">Tirana International Film Festival</span>
+          <span class="screening-location">Tirana, Albania · Sep 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">CUFF Chicago Underground Film Festival</span>
+          <span class="screening-location">Chicago, USA · Sep 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">Montrose LandxSea Film Festival</span>
+          <span class="screening-location">Montrose, Scotland · Sep 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">Camden International Film Festival</span>
+          <span class="screening-location">Camden, USA · Sep 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">Antimatter Media Art Festival</span>
+          <span class="screening-location">Victoria, Canada · Oct 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">Science New Wave Festival</span>
+          <span class="screening-location">New York, USA · Oct 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">Maryland Film Festival</span>
+          <span class="screening-location">Baltimore, USA · Nov 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">Miradas Medellín</span>
+          <span class="screening-location">Medellín, Colombia · Nov 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">ZINEBI Festival Internacional de Cine</span>
+          <span class="screening-location">Bilbao, Spain · Nov 2025</span>
+        </div>
+        <div class="screening-item">
+          <span class="screening-festival">Big Sky Documentary Film Festival</span>
+          <span class="screening-location">Missoula, USA · Feb 2026</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Poster -->
+    <div class="section-poster">
+      <div class="poster-wrap">
+        <img src="images/animal-eye/animaleyeposter.jpg" alt="Animal Eye poster">
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="page-footer">
+    <a href="index.html" class="footer-name">carlo nasisse</a>
+    <a href="index.html" class="footer-back">← All work</a>
+  </footer>
+
+</body>
+</html>
