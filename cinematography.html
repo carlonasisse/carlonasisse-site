@@ -210,7 +210,7 @@
 
     <!-- Arc'teryx Chamonix -->
     <div class="project-card">
-      <video class="project-video" src="images/cinematography/arcteryxchamonix.mp4"
+      <video class="project-video" src="images/cinematography/arcteryx-chamonix/arcteryxchamonix.mp4"
         muted loop playsinline preload="auto"></video>
       <div class="project-scrim"></div>
       <div class="project-info">
@@ -258,26 +258,26 @@
   </footer>
 
   <script>
-    // For video cards: seek to frame 1, play on hover, pause on leave
+    // For video cards: seek past black intro frame, play on hover, pause on leave
     document.querySelectorAll('.project-card').forEach(card => {
       const video = card.querySelector('.project-video');
       if (!video) return;
 
-      // Make video visible always — it IS the image
       video.style.opacity = '1';
 
-      // Seek to first frame on load so it shows a still
+      // Seek to 0.5s to skip any black opening frame
       video.addEventListener('loadeddata', () => {
-        video.currentTime = 0.01;
+        video.currentTime = 0.5;
       });
 
       card.addEventListener('mouseenter', () => {
+        video.currentTime = 0;
         video.play().catch(() => {});
       });
 
       card.addEventListener('mouseleave', () => {
         video.pause();
-        video.currentTime = 0.01;
+        video.currentTime = 0.5;
       });
     });
   </script>
