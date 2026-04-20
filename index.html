@@ -277,35 +277,60 @@
       });
     });
 
-    /* HOVER — card scales up and lifts over grid, no push.
-       Grid stays perfectly intact. rAF lerp for smooth motion. */
-    const SCALE_UP = 1.04;
-    const L_RIP    = 0.07;
+    /* MAGNET REPULSION — all cards push away from hovered card radially.
+       Gaussian falloff: nearby cards move more, distant ones barely move.
+       rAF lerp keeps everything fluid. Cards never overlap. */
+    const COLS     = 5;
+    const MAX_PUSH = 28;   // px — max displacement for immediate neighbors
+    const SIGMA    = 1.6;  // gaussian spread — higher = wider ripple
+    const L_RIP    = 0.04; // lerp factor — low = dreamy and slow
+    const SCALE_UP = 1.035;
 
-    const rs = cards.map(() => ({ cs:1, ts:1 }));
+    const rs = cards.map(() => ({ cx:0,cy:0,cs:1, tx:0,ty:0,ts:1 }));
     let rraf = null;
+
+    const gauss = d => Math.exp(-(d*d) / (2*SIGMA*SIGMA));
 
     const rippleTick = () => {
       let live = false;
       cards.forEach((card, i) => {
         const s = rs[i];
+        s.cx += (s.tx - s.cx) * L_RIP;
+        s.cy += (s.ty - s.cy) * L_RIP;
         s.cs += (s.ts - s.cs) * L_RIP;
-        card.style.transform = `scale(${s.cs})`;
+        card.style.transform = `translate(${s.cx}px,${s.cy}px) scale(${s.cs})`;
         card.style.zIndex = s.ts > 1 ? '10' : '';
-        if (Math.abs(s.ts - s.cs) > 0.0005) live = true;
+        if (Math.abs(s.tx-s.cx)>0.02 || Math.abs(s.ty-s.cy)>0.02 || Math.abs(s.ts-s.cs)>0.0005) live=true;
       });
       rraf = live ? requestAnimationFrame(rippleTick) : null;
     };
 
-    const startRipple = () => { if(!rraf) rraf = requestAnimationFrame(rippleTick); };
+    const startRipple = () => { if(!rraf) rraf=requestAnimationFrame(rippleTick); };
+    const gPos = i => ({ col: i%COLS, row: Math.floor(i/COLS) });
 
     cards.forEach((card, i) => {
       card.addEventListener('mouseenter', () => {
-        rs[i].ts = SCALE_UP;
+        const {col:hc, row:hr} = gPos(i);
+        cards.forEach((_,j) => {
+          const s = rs[j];
+          const {col:oc, row:or} = gPos(j);
+          const dx = oc - hc, dy = or - hr;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (j === i) {
+            s.tx=0; s.ty=0; s.ts=SCALE_UP;
+          } else {
+            const push = gauss(dist) * MAX_PUSH;
+            const len = dist || 1;
+            s.tx = (dx/len) * push;
+            s.ty = (dy/len) * push;
+            s.ts = 1;
+          }
+        });
         startRipple();
       });
+
       card.addEventListener('mouseleave', () => {
-        rs[i].ts = 1;
+        rs.forEach(s => { s.tx=0; s.ty=0; s.ts=1; });
         startRipple();
       });
     });
