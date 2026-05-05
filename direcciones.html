@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Direcciones — Carlo Nasisse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700\&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -304,14 +304,9 @@
     @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
     @keyframes up     { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
   
-    /* ── SIDEBAR ── */
-    :root {
-      --sidebar-w: 200px; --peek: 26px;
-      --nav-dark: #2a2826; --divider: #e6e4de;
-    }
     .peek-indicator {
       position: fixed; top: 0; left: 0;
-      width: var(--peek); height: 100vh;
+      width: 26px; height: 100vh;
       z-index: 65; pointer-events: all;
       transition: opacity 0.25s ease;
     }
@@ -319,13 +314,13 @@
       position: absolute; top: 28px; left: 50%;
       transform: translateX(-50%);
       font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px;
-      color: var(--orange); letter-spacing: 0.08em; white-space: nowrap;
+      color: #e6510a; letter-spacing: 0.08em; white-space: nowrap;
       writing-mode: vertical-lr; text-orientation: mixed;
     }
     .peek-chevron {
       position: absolute; top: 50%; left: 50%;
       width: 7px; height: 7px;
-      border-right: 1.5px solid var(--orange); border-top: 1.5px solid var(--orange);
+      border-right: 1.5px solid #e6510a; border-top: 1.5px solid #e6510a;
       transform: translate(-60%,-50%) rotate(45deg);
       opacity: 0.5; animation: chevDrift 2.6s ease-in-out infinite;
     }
@@ -336,11 +331,11 @@
     .peek-indicator.hidden { opacity: 0; pointer-events: none; }
     .sidebar {
       position: fixed; top: 0; left: 0;
-      width: var(--sidebar-w); height: 100vh;
+      width: 200px; height: 100vh;
       background: #f8f7f4; z-index: 50;
       padding: 26px 24px 28px;
       display: flex; flex-direction: column;
-      transform: translateX(calc(-100% + var(--peek)));
+      transform: translateX(calc(-100% + 26px));
       transition: transform 0.44s cubic-bezier(0.4,0,0.2,1);
       border-right: 1px solid #e2dfd9;
       box-shadow: 4px 0 24px rgba(0,0,0,0.07);
@@ -389,6 +384,30 @@
   </style>
 </head>
 <body>
+
+  <div class="peek-indicator" id="peek-indicator">
+    <span class="peek-name">carlo nasisse</span>
+    <span class="peek-chevron"></span>
+  </div>
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="sidebar-name">carlo nasisse</a>
+    <nav class="sb-nav">
+      <span class="sb-label">Work</span>
+      <a href="cinematography.html" class="sb-link">Cinematography</a>
+      <a href="films.html" class="sb-link">Films</a>
+      <a href="#" class="sb-link">Photography</a>
+      <div class="sb-divider"></div>
+      <a href="about.html" class="sb-link secondary">About</a>
+      <a href="#" class="sb-link secondary">Press / Interviews</a>
+      <a href="#" class="sb-link secondary">Contact</a>
+    </nav>
+    <div class="sb-social">
+      <a href="#" class="sb-social-link">Instagram</a>
+      <a href="#" class="sb-social-link">IMDb</a>
+    </div>
+  </aside>
+
+
 
   <div class="main-image">
     <img src="images/direcciones/direcciones1.jpg" alt="Direcciones">
@@ -532,19 +551,18 @@
   </script>
 
 
-  <script id="sidebar-js">
+  <script id="sb-script">
     (function(){
-      var sb = document.getElementById('sidebar');
-      var pk = document.getElementById('peek-indicator');
-      var t  = null;
-      function open()  { clearTimeout(t); sb.classList.add('open'); pk.classList.add('hidden'); }
-      function close() { t = setTimeout(function(){ sb.classList.remove('open'); pk.classList.remove('hidden'); }, 320); }
-      sb.addEventListener('mouseenter', open);
-      sb.addEventListener('mouseleave', close);
-      pk.addEventListener('mouseenter', open);
-      pk.addEventListener('mouseleave', close);
+      var sb=document.getElementById("sidebar");
+      var pk=document.getElementById("peek-indicator");
+      var t=null;
+      function open(){clearTimeout(t);sb.classList.add("open");pk.classList.add("hidden");}
+      function close(){t=setTimeout(function(){sb.classList.remove("open");pk.classList.remove("hidden");},320);}
+      sb.addEventListener("mouseenter",open);
+      sb.addEventListener("mouseleave",close);
+      pk.addEventListener("mouseenter",open);
+      pk.addEventListener("mouseleave",close);
     })();
   </script>
-
 </body>
 </html>
