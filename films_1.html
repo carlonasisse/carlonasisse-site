@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Films — Carlo Nasisse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --orange: #e6510a; --bg: #f8f7f4;
+      --nav-muted: #9a9590; --nav-dark: #2a2826;
+      --rule: #dedad4; --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html, body { background: var(--bg); min-height: 100vh; font-family: 'Jost', sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; }
+
+    .nav { padding: 22px 40px; display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--rule); opacity: 0; animation: up 0.6s ease 0s both; }
+    .nav-name { font-size: 12px; font-weight: 400; color: var(--orange); text-decoration: none; }
+    .nav-back { font-size: 11px; font-weight: 300; color: var(--nav-muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
+    .nav-back:hover { color: var(--nav-dark); }
+
+    .page-header { padding: 52px 40px 44px; border-bottom: 1px solid var(--rule); opacity: 0; animation: up 0.6s ease 0.1s both; }
+    .page-title { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #c0bbb5; }
+
+    .projects { padding: 40px 40px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; opacity: 0; animation: up 0.7s ease 0.2s both; }
+
+    .project-card { position: relative; overflow: hidden; aspect-ratio: 239/100; background: #1a1816; display: block; cursor: pointer; text-decoration: none; }
+
+    .project-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; z-index: 1; }
+
+    .project-card::before {
+      content: ''; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-size: 220px 220px; mix-blend-mode: soft-light; opacity: 0.3; transition: opacity 0.5s var(--ease);
+    }
+    .project-card:hover::before { opacity: 0; }
+
+    .project-scrim { position: absolute; inset: 0; z-index: 3; background: linear-gradient(to top, rgba(8,6,5,0.68) 0%, rgba(8,6,5,0) 60%); pointer-events: none; }
+
+    .project-info { position: absolute; bottom: 20px; left: 22px; right: 22px; z-index: 5; opacity: 0; transform: translateY(5px); transition: opacity 0.45s var(--ease), transform 0.45s var(--ease); }
+    .project-card:hover .project-info { opacity: 1; transform: translateY(0); }
+
+    .project-name { font-size: 13px; font-weight: 400; color: rgba(252,248,240,0.95); letter-spacing: 0.01em; line-height: 1.3; display: block; }
+    .project-meta { font-size: 10.5px; font-weight: 300; color: rgba(252,248,240,0.55); letter-spacing: 0.04em; margin-top: 3px; display: block; }
+
+    .page-footer { border-top: 1px solid var(--rule); padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; margin-top: 40px; }
+    .footer-name { font-size: 12px; font-weight: 400; color: var(--orange); text-decoration: none; }
+    .footer-back { font-size: 11px; font-weight: 300; letter-spacing: 0.05em; color: var(--nav-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-back:hover { color: var(--nav-dark); }
+
+    @keyframes up { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-name">carlo nasisse</a>
+    <a href="index.html" class="nav-back">← all work</a>
+  </nav>
+
+  <div class="page-header">
+    <span class="page-title">Films</span>
+  </div>
+
+  <div class="projects">
+
+    <a href="animal-eye.html" class="project-card">
+      <img class="project-poster" src="images/animal-eye/animaleye6.jpg" alt="Animal Eye">
+      <div class="project-scrim"></div>
+      <div class="project-info">
+        <span class="project-name">Animal Eye</span>
+        <span class="project-meta">2024 · 16mm · 13'48"</span>
+      </div>
+    </a>
+
+    <a href="direcciones.html" class="project-card">
+      <img class="project-poster" src="images/direcciones/direcciones1.jpg" alt="Direcciones">
+      <div class="project-scrim"></div>
+      <div class="project-info">
+        <span class="project-name">Direcciones</span>
+        <span class="project-meta">2023 · Co-dir. Maria Luisa Santos</span>
+      </div>
+    </a>
+
+    <a href="bark.html" class="project-card">
+      <img class="project-poster" src="images/cinematography/bark/bark3.jpg" alt="Bark">
+      <div class="project-scrim"></div>
+      <div class="project-info">
+        <span class="project-name">Bark</span>
+        <span class="project-meta">2024 · In Post Production</span>
+      </div>
+    </a>
+
+    <a href="coby-and-stephen-are-in-love.html" class="project-card">
+      <img class="project-poster" src="images/cobyandstephenareinlove/cobyandstephenareinlovecover.jpg" alt="Coby and Stephen Are In Love">
+      <div class="project-scrim"></div>
+      <div class="project-info">
+        <span class="project-name">Coby and Stephen Are In Love</span>
+        <span class="project-meta">2023</span>
+      </div>
+    </a>
+
+  </div>
+
+  <footer class="page-footer">
+    <a href="index.html" class="footer-name">carlo nasisse</a>
+    <a href="index.html" class="footer-back">← all work</a>
+  </footer>
+
+</body>
+</html>
