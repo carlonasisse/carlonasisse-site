@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Carlo Nasisse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --orange: #e6510a; --bg: #f8f7f4; --text: #1e1c1a; --muted: #999490; --rule: #dedad4; --ease: cubic-bezier(0.4,0,0.2,1); }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Jost', sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; }
+
+    .peek-indicator { position: fixed; top: 0; left: 0; width: 26px; height: 100vh; z-index: 65; pointer-events: all; transition: opacity 0.25s ease; }
+    .peek-name { position: absolute; top: 28px; left: 50%; transform: translateX(-50%); font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; color: var(--orange); letter-spacing: 0.08em; white-space: nowrap; writing-mode: vertical-lr; text-orientation: mixed; }
+    .peek-chevron { position: absolute; top: 50%; left: 50%; width: 7px; height: 7px; border-right: 1.5px solid var(--orange); border-top: 1.5px solid var(--orange); transform: translate(-60%,-50%) rotate(45deg); opacity: 0.5; animation: chevDrift 2.6s ease-in-out infinite; }
+    @keyframes chevDrift { 0%,100% { transform:translate(-60%,-50%) rotate(45deg); opacity:0.4; } 50% { transform:translate(-40%,-50%) rotate(45deg); opacity:0.65; } }
+    .peek-indicator.hidden { opacity: 0; pointer-events: none; }
+    .sidebar { position: fixed; top: 0; left: 0; width: 200px; height: 100vh; background: var(--bg); z-index: 50; padding: 26px 24px 28px; display: flex; flex-direction: column; transform: translateX(calc(-100% + 26px)); transition: transform 0.44s var(--ease); border-right: 1px solid #e2dfd9; box-shadow: 4px 0 24px rgba(0,0,0,0.07); }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-name { display: block; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 22px; color: var(--orange); letter-spacing: -0.01em; line-height: 1.2; text-decoration: none; white-space: nowrap; opacity: 0; transform: translateX(-4px); transition: opacity 0.3s ease 0.1s, transform 0.35s var(--ease) 0.1s; margin-bottom: 32px; }
+    .sidebar.open .sidebar-name { opacity: 1; transform: translateX(0); }
+    .sb-nav { flex: 1; overflow-y: auto; scrollbar-width: none; }
+    .sb-nav::-webkit-scrollbar { display: none; }
+    .sb-label { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: #ccc8c0; display: block; margin-bottom: 10px; }
+    .sb-link { display: block; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 13.5px; color: #7a7772; text-decoration: none; line-height: 2.15; opacity: 0; transform: translateX(-5px); transition: color 0.2s, opacity 0.28s, transform 0.32s var(--ease); }
+    .sb-link:hover { color: #2a2826; }
+    .sb-link.secondary { font-size: 12.5px; color: var(--muted); }
+    .sidebar.open .sb-link { opacity: 1; transform: translateX(0); }
+    .sidebar.open .sb-link:nth-child(2) { transition-delay: 0.13s; }
+    .sidebar.open .sb-link:nth-child(3) { transition-delay: 0.17s; }
+    .sidebar.open .sb-link:nth-child(4) { transition-delay: 0.21s; }
+    .sidebar.open .sb-link:nth-child(5) { transition-delay: 0.28s; }
+    .sidebar.open .sb-link:nth-child(6) { transition-delay: 0.32s; }
+    .sidebar.open .sb-link:nth-child(7) { transition-delay: 0.36s; }
+    .sb-divider { height: 1px; background: #e6e4de; margin: 22px 0 14px; opacity: 0; transition: opacity 0.3s ease 0.24s; }
+    .sidebar.open .sb-divider { opacity: 1; }
+    .sb-social { display: flex; gap: 16px; padding-top: 16px; border-top: 1px solid #e6e4de; opacity: 0; transition: opacity 0.3s ease 0.34s; }
+    .sidebar.open .sb-social { opacity: 1; }
+    .sb-social-link { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #c0bdb7; text-decoration: none; transition: color 0.2s; }
+    .sb-social-link:hover { color: #2a2826; }
+
+    /* ── PAGE ── */
+    .page-title { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #c0bbb5; display: block; padding: 24px 48px 0; opacity: 0; animation: up 0.6s ease 0.1s both; }
+
+    .contact-body { max-width: 980px; margin: 0 auto; padding: 0 48px 120px; opacity: 0; animation: up 0.7s ease 0.2s both; }
+
+    .contact-inner { padding: 80px 0 0; max-width: 480px; }
+
+    .contact-label { font-size: 9px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: #c0bbb5; display: block; margin-bottom: 20px; }
+
+    .email-reveal { display: inline-flex; align-items: center; gap: 12px; cursor: pointer; border: none; background: none; padding: 0; font-family: 'Jost', sans-serif; }
+
+    .email-text { font-size: 20px; font-weight: 300; color: var(--text); letter-spacing: -0.01em; transition: color 0.2s; }
+
+    .email-reveal:hover .email-text { color: var(--orange); }
+
+    .reveal-hint { font-size: 10px; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); transition: opacity 0.3s; }
+
+    .email-reveal.revealed .reveal-hint { opacity: 0; pointer-events: none; }
+
+    .email-link { font-size: 20px; font-weight: 300; color: var(--orange); letter-spacing: -0.01em; text-decoration: none; display: none; }
+    .email-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    .page-footer { border-top: 1px solid var(--rule); padding: 20px 48px; display: flex; justify-content: space-between; align-items: center; opacity: 0; animation: up 0.6s ease 0.3s both; }
+    .footer-name { font-size: 12px; font-weight: 400; color: var(--orange); text-decoration: none; }
+    .footer-back { font-size: 11px; font-weight: 300; letter-spacing: 0.05em; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-back:hover { color: var(--text); }
+
+    @keyframes up { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <div class="peek-indicator" id="peek-indicator">
+    <span class="peek-name">carlo nasisse</span>
+    <span class="peek-chevron"></span>
+  </div>
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="sidebar-name">carlo nasisse</a>
+    <nav class="sb-nav">
+      <span class="sb-label">Work</span>
+      <a href="cinematography.html" class="sb-link">Cinematography</a>
+      <a href="films.html" class="sb-link">Films</a>
+      <a href="#" class="sb-link">Photography</a>
+      <div class="sb-divider"></div>
+      <a href="about.html" class="sb-link secondary">About</a>
+      <a href="#" class="sb-link secondary">Press / Interviews</a>
+      <a href="contact.html" class="sb-link secondary">Contact</a>
+    </nav>
+    <div class="sb-social">
+      <a href="https://www.instagram.com/carlonasisse/" target="_blank" class="sb-social-link">Instagram</a>
+      <a href="https://mubi.com/en/cast/carlo-nasisse" target="_blank" class="sb-social-link">MUBI</a>
+      <a href="https://www.imdb.com/name/nm7455817/" target="_blank" class="sb-social-link">IMDb</a>
+    </div>
+  </aside>
+
+  <span class="page-title">Contact</span>
+
+  <div class="contact-body">
+    <div class="contact-inner">
+      <span class="contact-label">Email</span>
+      <button class="email-reveal" id="email-reveal">
+        <span class="email-text" id="email-text">––––––––––––––––––</span>
+        <span class="reveal-hint">tap to reveal</span>
+      </button>
+      <a class="email-link" id="email-link" href="mailto:carlonasisse@gmail.com">carlonasisse@gmail.com</a>
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    <a href="index.html" class="footer-name">carlo nasisse</a>
+    <a href="index.html" class="footer-back">← all work</a>
+  </footer>
+
+  <script>
+    (function(){
+      var sb=document.getElementById("sidebar"),pk=document.getElementById("peek-indicator"),t=null;
+      function open(){clearTimeout(t);sb.classList.add("open");pk.classList.add("hidden");}
+      function close(){t=setTimeout(function(){sb.classList.remove("open");pk.classList.remove("hidden");},320);}
+      sb.addEventListener("mouseenter",open);sb.addEventListener("mouseleave",close);
+      pk.addEventListener("mouseenter",open);pk.addEventListener("mouseleave",close);
+    })();
+
+    document.getElementById('email-reveal').addEventListener('click', function() {
+      this.style.display = 'none';
+      document.getElementById('email-link').style.display = 'inline';
+    });
+  </script>
+
+</body>
+</html>
