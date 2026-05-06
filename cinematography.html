@@ -20,10 +20,9 @@
     .nav-back { font-size: 11px; font-weight: 300; color: var(--nav-muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
     .nav-back:hover { color: var(--nav-dark); }
 
-    .page-header { padding: 52px 40px 44px; border-bottom: 1px solid var(--rule); opacity: 0; animation: up 0.6s ease 0.1s both; }
-    .page-title { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #c0bbb5; }
+    .page-title { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #c0bbb5; display: block; padding: 24px 40px 14px; opacity: 0; animation: up 0.6s ease 0.1s both; }
 
-    .projects { padding: 40px 40px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; opacity: 0; animation: up 0.7s ease 0.2s both; }
+    .projects { padding: 0 40px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; opacity: 0; animation: up 0.7s ease 0.2s both; }
 
     .project-card { position: relative; overflow: hidden; aspect-ratio: 239/100; background: #1a1816; display: block; cursor: pointer; text-decoration: none; }
 
@@ -157,9 +156,7 @@
 
 
 
-  <div class="page-header">
-    <span class="page-title">Cinematography</span>
-  </div>
+  <span class="page-title">Cinematography</span>
 
   <div class="projects">
 
@@ -182,7 +179,7 @@
     </a>
 
     <a href="feu-de-lune.html" class="project-card">
-      <video class="project-video" src="images/cinematography/feu-de-lune/feudelune1.mp4" muted loop playsinline preload="auto"></video>
+      <img class="project-poster" src="images/entrelefeu1.jpg" alt="Feu de Lune">
       <div class="project-scrim"></div>
       <div class="project-info">
         <span class="project-name">Feu de Lune</span>
